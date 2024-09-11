@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from config import DevelopmentConfig, TestingConfig
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from flask_cors import CORS
@@ -7,11 +8,13 @@ from datetime import timedelta
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://carford_user:carford_password@db:5432/carford_db"
-)
-app.config["JWT_SECRET_KEY"] = "super-secret-key"
+if app.config['TESTING']:
+    app.config.from_object(TestingConfig)
+else:
+    app.config.from_object(DevelopmentConfig)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["JWT_SECRET_KEY"] = "super-secret-key"
 
 db = SQLAlchemy(app)
 jwt = JWTManager(app)

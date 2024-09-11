@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     environment:
-      FLASK_DEBUG: 'true'
+      FLASK_ENV: 'development'
       DATABASE_URL: postgres://carford_user:carford_password@db:5432/carford_db
 
   frontend:
@@ -32,6 +32,17 @@ services:
       - ./frontend:/frontend
     ports:
       - '8000:8000'
+
+  test:
+    build: ./backend
+    command: pytest
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      FLASK_ENV: testing
+      SQLALCHEMY_DATABASE_URI: 'sqlite:///:memory:'
 
 volumes:
   postgres_data:
