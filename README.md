@@ -24,7 +24,7 @@ system without owners.
 
 - [x] Secure routes
 
-- [] Write tests
+- [x] Write tests
 
 ## Run this project
 
@@ -37,3 +37,7 @@ system without owners.
 |<http://localhost:5000/owner>|POST|API create owner|
 |<http://localhost:5000/owner/{owner_id}/vehicle>|POST|API add vehicle|
 |<http://localhost:5000/owners>|GET|API list all|
+
+## Run tests
+
+`docker-compose run test`
