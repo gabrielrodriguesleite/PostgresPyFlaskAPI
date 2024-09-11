@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carford - Usuários e Carros</title>
+  <script>
+    async function fetchOwners() {
+      const response = await fetch('http://localhost:5000/owners', {
+        method: "GET",
+        headers: {
+          // 'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          "Content-Type": "text/plain"
+        },
+      })
+      const owners = await response.json();
+      let ownersList = document.getElementById('owners-list');
+      ownersList.innerHTML = '';
+      owners.forEach(owner => {
+        let ownerItem = document.createElement('li');
+        ownerItem.textContent = `${owner.name} (Oportunidade: ${owner.opportunity})`
+        let vehiclesList = document.createElement('ul');
+        owner.vehicles.forEach(vehicle => {
+          let vehicleItem = document.createElement('li')
+          vehicleItem.textContent = `Cor: ${vehicle.color}, Modelo: ${vehicle.model}`
+          vehiclesList.appendChild(vehicleItem)
+        })
+        ownerItem.appendChild(vehiclesList);
+        ownersList.appendChild(ownerItem)
+      })
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Proprietários e Veículos</h1>
+  <ul id="owners-list">
+
+  </ul>
+  <button onclick="fetchOwners()">Carregar Proprietários</button>
+</body>
+
+</html>
